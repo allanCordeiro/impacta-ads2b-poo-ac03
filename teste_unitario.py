@@ -22,6 +22,13 @@ def testa_produto_eletronico():
     print(produto_eletronico.tempo_garantia)
     print(produto_eletronico.calcular_preco_com_frete())
 
+def testa_ebook():
+    ebook = loja.Ebook("Aprendendo Python", 30, "Allan Cordeiro", 300)
+    print(ebook.nome_exibicao)
+    print(ebook.preco)
+    print(ebook.numero_paginas)
+    print(ebook.calcular_preco_com_frete())
+
 if __name__ == "__main__":
     print("testando classe Loja")
     testa_produto()
@@ -32,4 +39,6 @@ if __name__ == "__main__":
     print("testando classe ProdutoEletronico")
     testa_produto_eletronico()
     print("*" * 60)
-
+    print("testando classe Ebook")
+    testa_ebook()
+    print("*" * 60)

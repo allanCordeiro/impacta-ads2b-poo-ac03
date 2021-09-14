@@ -92,6 +92,26 @@ class ProdutoEletronico(ProdutoFisico):
         valor_frete = super(ProdutoEletronico, self).calcular_preco_com_frete()
         return valor_frete + (valor_frete * 0.01)
 
+class Ebook(Produto):
+    def __init__(self, nome, preco, autor, numero_paginas):
+        super().__init__(nome, preco)
+        self.__autor = autor
+        self.__numero_paginas = self.numero_paginas = numero_paginas
+
+    @property
+    def nome_exibicao(self):
+        return f"{self.nome} ({self.__autor})"
+
+    @property
+    def numero_paginas(self):
+        return self.__numero_paginas
+
+    @numero_paginas.setter
+    def numero_paginas(self, valor):
+        if valor > 0:
+            self.__numero_paginas = valor
+        else:
+            raise ValueError("'numero de paginas' deve ser maior que zero.")
 
 class Utils:
     # bool é subtipo de int. Se o test colocar True ou False, somente a validação por int vai falhar
