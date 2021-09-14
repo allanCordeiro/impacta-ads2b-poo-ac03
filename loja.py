@@ -25,7 +25,7 @@ class Produto:
 
     @preco.setter
     def preco(self, novo_preco):
-        if not isinstance(novo_preco, bool) and isinstance(novo_preco, int) or isinstance(novo_preco, float):
+        if Utils.is_int(novo_preco) or isinstance(novo_preco, float):
             if novo_preco > 0:
                 self.__preco = novo_preco
             else:
@@ -48,7 +48,7 @@ class ProdutoFisico(Produto):
 
     @peso.setter
     def peso(self, novo_peso):
-        if not isinstance(novo_peso, bool) and isinstance(novo_peso, int):
+        if Utils.is_int(novo_peso):
             if novo_peso > 0:
                 self.__peso = novo_peso
             else:
@@ -64,3 +64,40 @@ class ProdutoFisico(Produto):
         return self.preco + (self.peso_em_kg() * valor_por_kg)
 
 
+class ProdutoEletronico(ProdutoFisico):
+    def __init__(self, nome, preco, peso, tensao, tempo_garantia):
+        super().__init__(nome, preco, peso)
+        self.__tensao = self.tensao = tensao
+        self.__tempo_garantia = tempo_garantia
+
+    @property
+    def tensao(self):
+        return self.__tensao
+
+    @property
+    def tempo_garantia(self):
+        return self.__tempo_garantia
+
+    @tensao.setter
+    def tensao(self, nova_tensao):
+        if Utils.is_int(nova_tensao):
+            if nova_tensao == 0 or nova_tensao == 127 or nova_tensao == 220:
+                self.__tensao = nova_tensao
+            else:
+                raise ValueError("'tensao' valor inválido.")
+        else:
+            raise TypeError("'tensao' deve ser um valor inteiro")
+
+    def calcular_preco_com_frete(self):
+        valor_frete = super(ProdutoEletronico, self).calcular_preco_com_frete()
+        return valor_frete + (valor_frete * 0.01)
+
+
+class Utils:
+    # bool é subtipo de int. Se o test colocar True ou False, somente a validação por int vai falhar
+    # pra ficar menos poluida a tela, um metodo já faz essa dupla validacao antes.
+    @staticmethod
+    def is_int(var_type):
+        if not isinstance(var_type, bool) and isinstance(var_type, int):
+            return True
+        return False
